@@ -305,10 +305,9 @@
     display: flex; justify-content: space-between; align-items: center;
     padding: 0.9rem 0; border-bottom: 1px solid var(--border);
     font-size: 0.87rem;
-    opacity: 0; transform: translateX(20px);
+    opacity: 1; transform: translateX(0);
     transition: all 0.5s;
   }
-  .info-row.visible { opacity: 1; transform: translateX(0); }
   .info-key { color: var(--muted); font-weight: 500; }
   .info-val { color: var(--text); font-weight: 400; }
   .info-val a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
@@ -332,9 +331,8 @@
     border: 1px solid var(--border);
     background: var(--card);
     transition: all 0.35s;
-    opacity: 0; transform: translateX(-16px);
+    opacity: 1; transform: translateX(0);
   }
-  .skill-row.visible { opacity: 1; transform: translateX(0); }
   .skill-row:hover {
     border-color: var(--border2);
     background: var(--card2);
@@ -361,9 +359,8 @@
     font-size: 0.82rem; font-weight: 400; color: var(--muted);
     display: flex; align-items: center; gap: 0.6rem;
     transition: all 0.3s;
-    opacity: 0; transform: translateY(10px);
+    opacity: 1; transform: translateY(0);
   }
-  .soft-chip.visible { opacity: 1; transform: translateY(0); }
   .soft-chip:hover { border-color: var(--accent); color: var(--text); background: var(--card2); }
   .soft-dot { width: 4px; height: 4px; background: var(--gold); flex-shrink: 0; }
 
@@ -381,10 +378,9 @@
   .tl-item {
     padding-left: 2.5rem; padding-bottom: 3.5rem;
     position: relative;
-    opacity: 0; transform: translateY(20px);
+    opacity: 1; transform: translateY(0);
     transition: all 0.6s;
   }
-  .tl-item.visible { opacity: 1; transform: translateY(0); }
   .tl-dot {
     position: absolute; left: -5px; top: 6px;
     width: 11px; height: 11px;
@@ -414,7 +410,7 @@
     padding: 2rem;
     position: relative; overflow: hidden;
     transition: all 0.4s;
-    opacity: 0; transform: translateY(20px);
+    opacity: 1; transform: translateY(0);
   }
   .proj-card.visible { opacity: 1; transform: translateY(0); }
   .proj-card::before {
@@ -465,7 +461,7 @@
     padding: 1.75rem 1.75rem 2rem;
     position: relative; overflow: hidden;
     transition: all 0.35s;
-    opacity: 0; transform: translateY(16px);
+    opacity: 1; transform: translateY(0);
   }
   .edu-card.visible { opacity: 1; transform: translateY(0); }
   .edu-card:hover { border-color: var(--border2); background: var(--card2); transform: translateY(-3px); }
@@ -492,7 +488,7 @@
     padding: 1.2rem 1.2rem 1.2rem 1.5rem;
     display: flex; align-items: flex-start; gap: 0.85rem;
     transition: all 0.3s; position: relative;
-    opacity: 0; transform: translateY(12px);
+    opacity: 1; transform: translateY(0);
   }
   .cert-card.visible { opacity: 1; transform: translateY(0); }
   .cert-card::before {
@@ -584,13 +580,9 @@
 
   /* ── Section Fade-In ── */
   section {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-  }
-  section.section-visible {
     opacity: 1;
     transform: translateY(0);
+    transition: opacity 0.8s ease, transform 0.8s ease;
   }
   .hero { opacity: 1 !important; transform: none !important; }
 
@@ -688,6 +680,18 @@
   .contact-link:hover {
     transform: translateY(-3px) scale(1.02);
     box-shadow: 0 8px 24px rgba(79,142,247,0.2);
+  }
+
+  /* ── Scroll Reveal Animations ── */
+  .tl-item, .proj-card, .edu-card, .cert-card, .skill-row, .soft-chip, .info-row {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .tl-item.visible, .proj-card.visible, .edu-card.visible, .cert-card.visible,
+  .skill-row.visible, .soft-chip.visible, .info-row.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
 </style>
@@ -932,21 +936,6 @@
     glow.style.top = e.clientY + 'px';
   });
 
-  // Scroll reveal
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'),
-          parseInt(entry.target.dataset.delay) || 0);
-      }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.tl-item, .edu-card, .cert-card, .proj-card, .skill-row, .soft-chip, .info-row').forEach((el, i) => {
-    el.dataset.delay = (i % 5) * 90;
-    observer.observe(el);
-  });
-
     // Scroll progress bar
   const scrollBar = document.getElementById('scroll-progress');
   window.addEventListener('scroll', () => {
@@ -1029,16 +1018,32 @@
   }
   typeWriter();
 
-  // Section fade-in on scroll
-  const sectionObs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('section-visible');
-        sectionObs.unobserve(e.target);
-      }
+  // Section & card scroll reveal
+  function revealAll() {
+    document.querySelectorAll('.tl-item, .edu-card, .cert-card, .proj-card, .skill-row, .soft-chip, .info-row').forEach(el => {
+      el.classList.add('visible');
     });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('section').forEach(s => sectionObs.observe(s));
+  }
+
+  if ('IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), parseInt(entry.target.dataset.delay) || 0);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.tl-item, .edu-card, .cert-card, .proj-card, .skill-row, .soft-chip, .info-row').forEach((el, i) => {
+      el.dataset.delay = (i % 6) * 80;
+      revealObserver.observe(el);
+    });
+
+    // Fallback: reveal everything after 2s if observer doesn't fire
+    setTimeout(revealAll, 2000);
+  } else {
+    revealAll();
+  }
 
   // Active nav link highlight on scroll
   const sections = document.querySelectorAll('section[id]');
@@ -1061,4 +1066,35 @@
       const x = e.clientX - rect.left - rect.width / 2;
       const y = e.clientY - rect.top - rect.height / 2;
       const tiltX = (y / rect.height) * 8;
-      const tiltY = -(x / rect
+      const tiltY = -(x / rect.width) * 8;
+      card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-4px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+
+  // Scroll reveal for cards
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'),
+          parseInt(entry.target.dataset.delay) || 0);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.tl-item, .edu-card, .cert-card, .proj-card, .skill-row, .soft-chip, .info-row').forEach((el, i) => {
+    el.dataset.delay = (i % 5) * 90;
+    revealObserver.observe(el);
+  });
+
+  // Skill bar animation
+  document.querySelectorAll('.skill-bar-fill').forEach(bar => {
+    const target = bar.getAttribute('data-width') || bar.style.width;
+    bar.style.setProperty('--target-width', target);
+  });
+
+</script>
+</body>
+</html>
