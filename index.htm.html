@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Portfolio — Finance & Analytics</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --ink: #0f0f0f;
+    --paper: #f5f0e8;
+    --gold: #b8860b;
+    --gold-light: #d4a017;
+    --muted: #6b6560;
+    --line: #d4cfc5;
+    --white: #ffffff;
+    --section-bg: #faf7f2;
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(245,240,232,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; font-weight: 700; letter-spacing: 0.05em;
+    color: var(--ink);
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.8rem; font-weight: 400; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 6rem 4rem 4rem;
+    gap: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -20%; right: -10%;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(184,134,11,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-block;
+    font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); font-weight: 500;
+    border: 1px solid var(--gold-light);
+    padding: 0.35rem 1rem; border-radius: 2rem;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    font-weight: 900; line-height: 1.1;
+    letter-spacing: -0.02em;
+    animation: fadeUp 0.9s ease 0.1s both;
+  }
+  .hero h1 span { color: var(--gold); }
+  .hero-sub {
+    margin-top: 1.5rem;
+    font-size: 1rem; color: var(--muted); line-height: 1.8;
+    max-width: 480px;
+    animation: fadeUp 0.9s ease 0.2s both;
+  }
+  .hero-btns {
+    display: flex; gap: 1rem; margin-top: 2.5rem;
+    animation: fadeUp 0.9s ease 0.3s both;
+  }
+  .btn-primary {
+    background: var(--gold); color: var(--white);
+    padding: 0.85rem 2rem; border-radius: 0.3rem;
+    font-size: 0.85rem; font-weight: 500; letter-spacing: 0.05em;
+    text-decoration: none; transition: background 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-outline {
+    border: 1.5px solid var(--ink); color: var(--ink);
+    padding: 0.85rem 2rem; border-radius: 0.3rem;
+    font-size: 0.85rem; font-weight: 500; letter-spacing: 0.05em;
+    text-decoration: none; transition: all 0.2s;
+  }
+  .btn-outline:hover { background: var(--ink); color: var(--paper); transform: translateY(-2px); }
+
+  .hero-right {
+    display: flex; flex-direction: column; align-items: flex-end; gap: 2rem;
+    animation: fadeUp 0.9s ease 0.2s both;
+  }
+  .hero-photo-wrap {
+    width: 320px; height: 380px;
+    border-radius: 2px 60px 2px 60px;
+    overflow: hidden;
+    border: 3px solid var(--gold);
+    box-shadow: 12px 12px 0 var(--gold-light);
+    position: relative;
+  }
+  .hero-photo-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: top center;
+  }
+  .hero-stats {
+    display: flex; gap: 2rem;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; font-weight: 700; color: var(--gold);
+    display: block;
+  }
+  .stat-label {
+    font-size: 0.72rem; color: var(--muted);
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 6rem 4rem; }
+  section:nth-child(even) { background: var(--section-bg); }
+
+  .section-label {
+    font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); font-weight: 500; margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 700; line-height: 1.2;
+    margin-bottom: 3rem;
+  }
+  .section-title span { color: var(--gold); }
+
+  /* ── ABOUT ── */
+  .about-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 5rem; align-items: center; }
+  .about-text p { font-size: 1rem; line-height: 1.9; color: #3a3630; margin-bottom: 1.2rem; }
+  .about-highlights { display: flex; flex-direction: column; gap: 1.2rem; }
+  .highlight-card {
+    border-left: 3px solid var(--gold);
+    padding: 1rem 1.5rem;
+    background: var(--white);
+    border-radius: 0 0.5rem 0.5rem 0;
+  }
+  .highlight-card h4 { font-size: 0.85rem; font-weight: 500; color: var(--ink); }
+  .highlight-card p { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; }
+
+  /* ── EDUCATION ── */
+  .edu-timeline { position: relative; padding-left: 2rem; }
+  .edu-timeline::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 1px; background: var(--line);
+  }
+  .edu-item {
+    position: relative; margin-bottom: 3rem;
+    padding-left: 1.5rem;
+  }
+  .edu-item::before {
+    content: ''; position: absolute; left: -2.3rem; top: 0.4rem;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--gold); border: 2px solid var(--paper);
+    box-shadow: 0 0 0 2px var(--gold);
+  }
+  .edu-year {
+    font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--gold); font-weight: 500; margin-bottom: 0.4rem;
+  }
+  .edu-degree {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; font-weight: 700;
+  }
+  .edu-school { font-size: 0.9rem; color: var(--muted); margin-top: 0.3rem; }
+
+  /* ── EXPERIENCE ── */
+  .exp-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 1rem;
+    padding: 2.5rem;
+    display: grid; grid-template-columns: auto 1fr; gap: 2rem;
+    align-items: start;
+    max-width: 860px;
+  }
+  .exp-icon {
+    width: 56px; height: 56px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border-radius: 0.75rem;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+  .exp-meta { font-size: 0.78rem; color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .exp-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; }
+  .exp-company { font-size: 0.9rem; color: var(--muted); margin: 0.3rem 0 1rem; }
+  .exp-points { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .exp-points li {
+    font-size: 0.9rem; color: #3a3630; line-height: 1.7;
+    padding-left: 1.2rem; position: relative;
+  }
+  .exp-points li::before {
+    content: '→'; position: absolute; left: 0;
+    color: var(--gold); font-size: 0.75rem; top: 0.15rem;
+  }
+
+  /* ── SKILLS ── */
+  .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .skill-group {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 1rem;
+    padding: 2rem;
+  }
+  .skill-group h3 {
+    font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--gold); font-weight: 500; margin-bottom: 1.2rem;
+  }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .skill-tag {
+    font-size: 0.8rem; padding: 0.4rem 0.9rem;
+    border: 1px solid var(--line); border-radius: 2rem;
+    color: var(--ink); background: var(--paper);
+    transition: all 0.2s;
+  }
+  .skill-tag:hover { background: var(--gold); color: var(--white); border-color: var(--gold); }
+
+  /* ── PROJECTS ── */
+  .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+  .project-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 1rem;
+    padding: 2rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  }
+  .project-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(184,134,11,0.12); }
+  .project-tag {
+    font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--gold); font-weight: 500; margin-bottom: 0.8rem;
+  }
+  .project-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; font-weight: 700; margin-bottom: 0.8rem;
+  }
+  .project-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+
+  /* ── CERTIFICATIONS ── */
+  .cert-list { display: flex; flex-direction: column; gap: 1rem; max-width: 700px; }
+  .cert-item {
+    display: flex; align-items: center; gap: 1.5rem;
+    background: var(--white); border: 1px solid var(--line);
+    border-radius: 0.75rem; padding: 1.2rem 1.5rem;
+    transition: border-color 0.2s;
+  }
+  .cert-item:hover { border-color: var(--gold); }
+  .cert-badge {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; flex-shrink: 0; color: white;
+  }
+  .cert-name { font-size: 0.95rem; font-weight: 500; }
+  .cert-issuer { font-size: 0.78rem; color: var(--muted); margin-top: 0.15rem; }
+
+  /* ── CONTACT ── */
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+  .contact-info { display: flex; flex-direction: column; gap: 1.5rem; }
+  .contact-item {
+    display: flex; gap: 1rem; align-items: flex-start;
+  }
+  .contact-icon {
+    width: 44px; height: 44px; border-radius: 0.5rem;
+    background: var(--paper); border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0;
+  }
+  .contact-item h4 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+  .contact-item p { font-size: 0.95rem; color: var(--ink); margin-top: 0.2rem; }
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-group label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+  .form-group input, .form-group textarea {
+    background: var(--white); border: 1px solid var(--line);
+    border-radius: 0.5rem; padding: 0.85rem 1rem;
+    font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+    color: var(--ink); outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-group input:focus, .form-group textarea:focus { border-color: var(--gold); }
+  .form-group textarea { resize: vertical; min-height: 120px; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink); color: var(--paper);
+    padding: 3rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  footer .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; font-weight: 700; color: var(--gold);
+  }
+  footer p { font-size: 0.8rem; color: #888; margin-top: 0.3rem; }
+  .social-links { display: flex; gap: 1rem; }
+  .social-links a {
+    width: 38px; height: 38px; border-radius: 50%;
+    border: 1px solid #333;
+    display: flex; align-items: center; justify-content: center;
+    color: #888; text-decoration: none; font-size: 0.85rem;
+    transition: all 0.2s;
+  }
+  .social-links a:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 3rem; }
+    .hero-right { align-items: center; }
+    section { padding: 4rem 1.5rem; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .projects-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 1.5rem; text-align: center; padding: 2.5rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Portfolio.</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <div class="hero-tag">Analytics · Finance · MBA Candidate</div>
+    <h1>Turning Data<br/>Into <span>Financial</span><br/>Clarity.</h1>
+    <p class="hero-sub">
+      Analytics enthusiast with a passion for turning complex financial data into clear, actionable business insights. Currently pursuing MBA in Business Analytics at Amity University, Noida.
+    </p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">Get In Touch</a>
+      <a href="#projects" class="btn-outline">View Projects</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-photo-wrap">
+      <img src="https://via.placeholder.com/320x380/b8860b/ffffff?text=Your+Photo" alt="Profile Photo"/>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">3+</span>
+        <span class="stat-label">Months Exp.</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">MBA</span>
+        <span class="stat-label">Analytics</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">BBA</span>
+        <span class="stat-label">Finance</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label reveal">Who I Am</div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <div class="section-title">Finance Meets <span>Analytics.</span></div>
+      <p>I have always believed that numbers tell stories — and analytics is the language I use to tell them. My journey began at Anand Memorial Academy and grew through a BBA in Finance from United University, Prayagraj.</p>
+      <p>During my internship at Welcome Wealth Consultant Pvt. Ltd. as a Junior Accountant, I experienced first-hand how accurate financial data powers confident business decisions. Now, as an MBA candidate in Business Analytics at Amity University, I am bridging the gap between traditional finance and modern analytics.</p>
+    </div>
+    <div class="about-highlights reveal">
+      <div class="highlight-card">
+        <h4>Analytical Thinking</h4>
+        <p>Applying data-driven frameworks to financial decision-making</p>
+      </div>
+      <div class="highlight-card">
+        <h4>Financial Acumen</h4>
+        <p>Strong foundation in accounting, reporting & reconciliation</p>
+      </div>
+      <div class="highlight-card">
+        <h4>Business Strategy</h4>
+        <p>Connecting financial insights to organizational goals</p>
+      </div>
+      <div class="highlight-card">
+        <h4>Continuous Learning</h4>
+        <p>Always upskilling — currently deep into business analytics</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-label reveal">Academic Journey</div>
+  <div class="section-title reveal">Education &amp; <span>Background.</span></div>
+  <div class="edu-timeline">
+    <div class="edu-item reveal">
+      <div class="edu-year">2024 – Present</div>
+      <div class="edu-degree">MBA — Business Analytics</div>
+      <div class="edu-school">Amity University, Noida</div>
+    </div>
+    <div class="edu-item reveal">
+      <div class="edu-year">2021 – 2024</div>
+      <div class="edu-degree">BBA — Finance</div>
+      <div class="edu-school">United University, Prayagraj</div>
+    </div>
+    <div class="edu-item reveal">
+      <div class="edu-year">Up to 2021</div>
+      <div class="edu-degree">Senior Secondary (12th)</div>
+      <div class="edu-school">Anand Memorial Academy</div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label reveal">Work History</div>
+  <div class="section-title reveal">Internship <span>Experience.</span></div>
+  <div class="exp-card reveal">
+    <div class="exp-icon">💼</div>
+    <div>
+      <div class="exp-meta">June 2024 – August 2024 · Internship · Navi Mumbai</div>
+      <div class="exp-title">Junior Accountant</div>
+      <div class="exp-company">Welcome Wealth Consultant Pvt. Ltd.</div>
+      <ul class="exp-points">
+        <li>Assisted in financial reporting, bookkeeping, and account reconciliation for wealth management clients.</li>
+        <li>Applied analytical thinking to support data-driven financial decisions and client reporting.</li>
+        <li>Maintained ledgers, prepared financial statements, and ensured accurate documentation.</li>
+        <li>Developed practical understanding of financial data analysis, taxation basics, and compliance documentation.</li>
+        <li>Contributed to smooth day-to-day accounting operations in a professional wealth consulting environment.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label reveal">What I Know</div>
+  <div class="section-title reveal">Skills &amp; <span>Expertise.</span></div>
+  <div class="skills-grid">
+    <div class="skill-group reveal">
+      <h3>Finance & Accounting</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">Financial Reporting</span>
+        <span class="skill-tag">Bookkeeping</span>
+        <span class="skill-tag">Account Reconciliation</span>
+        <span class="skill-tag">Ledger Management</span>
+        <span class="skill-tag">Taxation Basics</span>
+        <span class="skill-tag">Compliance</span>
+      </div>
+    </div>
+    <div class="skill-group reveal">
+      <h3>Analytics & Tools</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">MS Excel</span>
+        <span class="skill-tag">Data Analysis</span>
+        <span class="skill-tag">Business Analytics</span>
+        <span class="skill-tag">Financial Modelling</span>
+        <span class="skill-tag">Dashboard Reporting</span>
+      </div>
+    </div>
+    <div class="skill-group reveal">
+      <h3>Soft Skills</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">Analytical Thinking</span>
+        <span class="skill-tag">Attention to Detail</span>
+        <span class="skill-tag">Communication</span>
+        <span class="skill-tag">Team Collaboration</span>
+        <span class="skill-tag">Problem Solving</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label reveal">My Work</div>
+  <div class="section-title reveal">Academic <span>Projects.</span></div>
+  <div class="projects-grid">
+    <div class="project-card reveal">
+      <div class="project-tag">Finance · Analytics</div>
+      <h3>Financial Performance Analysis</h3>
+      <p>Analysed quarterly financial statements of a listed company to identify key performance trends, profitability ratios, and areas of financial risk using Excel-based dashboards.</p>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-tag">Business Analytics</div>
+      <h3>Market Segmentation Study</h3>
+      <p>Conducted a data-driven market segmentation study for an FMCG brand, using descriptive analytics to identify high-value customer clusters and spending patterns.</p>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-tag">Accounting · Internship</div>
+      <h3>Client Financial Reporting</h3>
+      <p>Prepared monthly financial reports and reconciliation statements for wealth management clients during internship, ensuring accuracy and compliance with standard accounting norms.</p>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-tag">MBA · Strategy</div>
+      <h3>Investment Portfolio Analysis</h3>
+      <p>Evaluated risk-return trade-offs across a diversified investment portfolio using ratio analysis and financial modelling as part of MBA coursework at Amity University.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="section-label reveal">Credentials</div>
+  <div class="section-title reveal">Certifications &amp; <span>Achievements.</span></div>
+  <div class="cert-list">
+    <div class="cert-item reveal">
+      <div class="cert-badge">🎓</div>
+      <div>
+        <div class="cert-name">Add Your Certification Here</div>
+        <div class="cert-issuer">Issuing Organization · Year</div>
+      </div>
+    </div>
+    <div class="cert-item reveal">
+      <div class="cert-badge">📊</div>
+      <div>
+        <div class="cert-name">Add Your Certification Here</div>
+        <div class="cert-issuer">Issuing Organization · Year</div>
+      </div>
+    </div>
+    <div class="cert-item reveal">
+      <div class="cert-badge">💡</div>
+      <div>
+        <div class="cert-name">Add Your Certification Here</div>
+        <div class="cert-issuer">Issuing Organization · Year</div>
+      </div>
+    </div>
+  </div>
+  <p style="margin-top:1.5rem; font-size:0.85rem; color:var(--muted);">
+    * Certifications section mein apni actual certifications add kar lena (e.g. Excel, Tally, NISM, etc.)
+  </p>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label reveal">Let's Connect</div>
+  <div class="section-title reveal">Get In <span>Touch.</span></div>
+  <div class="contact-grid">
+    <div class="contact-info reveal">
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <div>
+          <h4>Location</h4>
+          <p>Noida, Uttar Pradesh, India</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">🎓</div>
+        <div>
+          <h4>University</h4>
+          <p>Amity University, Noida</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">💼</div>
+        <div>
+          <h4>LinkedIn</h4>
+          <p>linkedin.com/in/your-profile</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">✉️</div>
+        <div>
+          <h4>Email</h4>
+          <p>your.email@gmail.com</p>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form reveal">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" placeholder="Your name"/>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="your@email.com"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Subject</label>
+        <input type="text" placeholder="How can I help?"/>
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea placeholder="Your message..."></textarea>
+      </div>
+      <button class="btn-primary" style="width:100%; border:none; cursor:pointer; font-family:'DM Sans',sans-serif;">
+        Send Message
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="logo">Portfolio.</div>
+    <p>Finance & Analytics · MBA Candidate · Amity University</p>
+  </div>
+  <div class="social-links">
+    <a href="#">in</a>
+    <a href="#">✉</a>
+    <a href="#">↗</a>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
